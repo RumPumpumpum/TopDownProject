@@ -2,33 +2,47 @@
 
 
 #include "Character/TDCharacterBase.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFrameWork/CharacterMovementComponent.h"
 
 // Sets default values
 ATDCharacterBase::ATDCharacterBase()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+ 	// Pawn
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationYaw = false;
+    bUseControllerRotationRoll = false;
 
+    // Capsule
+    GetCapsuleComponent()->InitCapsuleSize(42.0f, 96.0f);
+    GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
+
+    // Movement
+    GetCharacterMovement()->bOrientRotationToMovement = true;
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 1500.0f, 0.0f);
+    GetCharacterMovement()->JumpZVelocity = 700.f;
+    GetCharacterMovement()->AirControl = 0.35f;
+    GetCharacterMovement()->MaxWalkSpeed = 500.f;
+    GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
+    GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+
+    // Mesh
+    GetMesh()->SetRelativeLocationAndRotation(
+        FVector(0.0f, 0.0f, -100.0f), FRotator(0.0f, -90.f, 0.0f));
+    GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+    GetMesh()->SetCollisionProfileName(TEXT("CharacterMesh"));
+
+    static ConstructorHelpers::FObjectFinder<USkeletalMesh> CharacterMeshRef(
+        TEXT("/Script/Engine.SkeletalMesh'/Game/ElfSelena/BaseMesh/SK_ElfSelena.SK_ElfSelena'"));
+    if (CharacterMeshRef.Object)
+    {
+        GetMesh()->SetSkeletalMesh(CharacterMeshRef.Object);
+    }
+
+    static ConstructorHelpers::FClassFinder<UAnimInstance> AnimInstanceClassRef(
+        TEXT("/Game/Animation/ABP_PlayerElf.ABP_PlayerElf_C"));
+    if (AnimInstanceClassRef.Class)
+    {
+        GetMesh()->SetAnimInstanceClass(AnimInstanceClassRef.Class);
+    }
 }
-
-// Called when the game starts or when spawned
-void ATDCharacterBase::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void ATDCharacterBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-// Called to bind functionality to input
-void ATDCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-

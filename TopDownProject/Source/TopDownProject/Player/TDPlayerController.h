@@ -13,5 +13,8 @@ UCLASS()
 class TOPDOWNPROJECT_API ATDPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void BeginPlay() override;
 	
 };
