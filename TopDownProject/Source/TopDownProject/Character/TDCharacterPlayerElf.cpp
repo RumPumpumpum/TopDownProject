@@ -40,14 +40,6 @@ ATDCharacterPlayerElf::ATDCharacterPlayerElf()
 	{
 		MoveAction = InputActionMoveRef.Object;
 	}
-
-	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionLookRef(
-		TEXT(""));
-	if (InputActionLookRef.Object)
-	{
-		LookAction = InputActionLookRef.Object;
-	}
-
 }
 
 void ATDCharacterPlayerElf::BeginPlay()
@@ -69,8 +61,6 @@ void ATDCharacterPlayerElf::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
 
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATDCharacterPlayerElf::Move);
-	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATDCharacterPlayerElf::Look);
-
 }
 
 void ATDCharacterPlayerElf::Move(const FInputActionValue& Value)
@@ -86,13 +76,4 @@ void ATDCharacterPlayerElf::Move(const FInputActionValue& Value)
 	AddMovementInput(ForwardDirection, MovementVector.Y);
 	AddMovementInput(RightDirection, MovementVector.X);
 }
-
-void ATDCharacterPlayerElf::Look(const FInputActionValue& Value)
-{
-	FVector2D LookAxisVector = Value.Get<FVector2D>();
-
-	//AddControllerYawInput(LookAxisVector.X);
-	//AddControllerPitchInput(LookAxisVector.Y);
-}
-
 

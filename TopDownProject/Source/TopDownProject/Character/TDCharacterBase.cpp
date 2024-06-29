@@ -19,7 +19,7 @@ ATDCharacterBase::ATDCharacterBase()
 
     // Movement
     GetCharacterMovement()->bOrientRotationToMovement = true;
-    GetCharacterMovement()->RotationRate = FRotator(0.0f, 1500.0f, 0.0f);
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 750.0f, 0.0f);
     GetCharacterMovement()->JumpZVelocity = 700.f;
     GetCharacterMovement()->AirControl = 0.35f;
     GetCharacterMovement()->MaxWalkSpeed = 500.f;
