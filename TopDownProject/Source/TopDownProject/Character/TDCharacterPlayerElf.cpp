@@ -40,6 +40,13 @@ ATDCharacterPlayerElf::ATDCharacterPlayerElf()
 	{
 		MoveAction = InputActionMoveRef.Object;
 	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionAttackRef(
+		TEXT("/Script/EnhancedInput.InputAction'/Game/Input/Action/IA_Attack.IA_Attack'"));
+	if (InputActionAttackRef.Object)
+	{
+		AttackAction = InputActionAttackRef.Object;
+	}
 }
 
 void ATDCharacterPlayerElf::BeginPlay()
@@ -61,6 +68,7 @@ void ATDCharacterPlayerElf::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
 
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATDCharacterPlayerElf::Move);
+	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ATDCharacterPlayerElf::Attack);
 }
 
 void ATDCharacterPlayerElf::Move(const FInputActionValue& Value)
@@ -77,3 +85,7 @@ void ATDCharacterPlayerElf::Move(const FInputActionValue& Value)
 	AddMovementInput(RightDirection, MovementVector.X);
 }
 
+void ATDCharacterPlayerElf::Attack(const FInputActionValue& Value)
+{
+	AttackStart();
+}

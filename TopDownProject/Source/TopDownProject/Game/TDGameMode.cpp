@@ -10,7 +10,7 @@ ATDGameMode::ATDGameMode()
 
 	// 디폴트 폰
 	static ConstructorHelpers::FClassFinder<APawn> DefaultPawnClassRef(
-		TEXT("/Script/TopDownProject.TDCharacterPlayerElf"));
+		TEXT("/Game/Character/BP_TDCharacterPlayerElf.BP_TDCharacterPlayerElf_C"));
 	if (DefaultPawnClassRef.Class)
 	{
 		DefaultPawnClass = DefaultPawnClassRef.Class;

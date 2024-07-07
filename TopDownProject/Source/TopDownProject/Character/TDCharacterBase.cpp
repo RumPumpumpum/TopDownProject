@@ -4,6 +4,8 @@
 #include "Character/TDCharacterBase.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFrameWork/CharacterMovementComponent.h"
+#include "Animation/AnimMontage.h"
+
 
 // Sets default values
 ATDCharacterBase::ATDCharacterBase()
@@ -44,5 +46,67 @@ ATDCharacterBase::ATDCharacterBase()
     if (AnimInstanceClassRef.Class)
     {
         GetMesh()->SetAnimInstanceClass(AnimInstanceClassRef.Class);
+    }
+
+    //static ConstructorHelpers::FClassFinder<ATDElfArrowProjectile> ElfArrowProjectileClassRef(
+    //    TEXT("/Game/Projectile/BP_TDElfArrowProjectile.BP_TDElfArrowProjectile_C"));
+
+    //if (ElfArrowProjectileClassRef.Class)
+    //{
+    //    ElfArrowProjectileClass = ElfArrowProjectileClassRef.Class;
+    //}
+}
+
+void ATDCharacterBase::AttackStart()
+{
+    if(!bIsAttacking)
+    {
+        bIsAttacking = true;
+
+        // 공격중에는 이동 불가
+        GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_None);
+
+        // 공격 속도
+        const float AttackSpeed = 1.0f; // 추후 스텟으로 분리
+
+        // 몽타주 재생
+        UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+        AnimInstance->Montage_Play(AttackMontage, AttackSpeed);
+
+        // 몽타주 종료 델리게이트
+        FOnMontageEnded EndDelegate;
+        EndDelegate.BindUObject(this, &ATDCharacterBase::AttackEnd);
+        AnimInstance->Montage_SetEndDelegate(EndDelegate, AttackMontage);
+    }
+
+}
+
+void ATDCharacterBase::AttackEnd(UAnimMontage* TargetMontage, bool IsProperlyEnded)
+{
+    // 몽타주 재생 종료 시 호출
+    ensure(bIsAttacking);
+
+    bIsAttacking = false;
+    GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+}
+
+void ATDCharacterBase::AttackHitCheck()
+{
+    UE_LOG(LogTemp, Warning, TEXT("Attack"));
+
+    if (ElfArrowProjectile)
+    {
+        FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 100.0f;
+        FRotator SpawnRotation = GetActorRotation();
+
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.Owner = this;
+        SpawnParams.Instigator = GetInstigator();
+
+        ATDElfArrowProjectile* Projectile = GetWorld()->SpawnActor<ATDElfArrowProjectile>(ElfArrowProjectile, SpawnLocation, SpawnRotation, SpawnParams);
+        if (Projectile)
+        {
+            Projectile->LaunchProjectile(3000.0f);
+        }
     }
 }

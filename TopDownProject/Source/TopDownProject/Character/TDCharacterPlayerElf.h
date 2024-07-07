@@ -40,5 +40,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, Meta = (AllowPrivateAccess = "true"));
 	TObjectPtr <class UInputAction> MoveAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, Meta = (AllowPrivateAccess))
+	TObjectPtr <class UInputAction> AttackAction;
+
+	// 바인딩 함수
 	void Move(const FInputActionValue& Value);
+	
+	void Attack(const FInputActionValue& Value);
+
 };
