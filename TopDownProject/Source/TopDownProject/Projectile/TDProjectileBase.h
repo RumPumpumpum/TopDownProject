@@ -4,18 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TDElfArrowProjectile.generated.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/SphereComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "TDProjectileBase.generated.h"
 
 UCLASS()
-class TOPDOWNPROJECT_API ATDElfArrowProjectile : public AActor
+class TOPDOWNPROJECT_API ATDProjectileBase : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ATDElfArrowProjectile();
+	ATDProjectileBase();
 
-private:
+protected:
     // Collision component for detecting hits
     UPROPERTY(VisibleAnywhere, Category = "Components")
     class USphereComponent* CollisionComponent;
@@ -31,4 +34,5 @@ private:
 public:
     // Function to handle the projectile's movement
     void LaunchProjectile(float Speed);
+
 };

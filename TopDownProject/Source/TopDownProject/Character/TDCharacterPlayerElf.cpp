@@ -47,6 +47,7 @@ ATDCharacterPlayerElf::ATDCharacterPlayerElf()
 	{
 		AttackAction = InputActionAttackRef.Object;
 	}
+
 }
 
 void ATDCharacterPlayerElf::BeginPlay()

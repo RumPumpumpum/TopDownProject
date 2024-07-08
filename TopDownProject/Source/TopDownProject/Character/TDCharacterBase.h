@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interface/TDAttackAnimationInterface.h"
-#include "Projectile/TDElfArrowProjectile.h"
+#include "Projectile/TDProjectileBase.h"
 #include "TDCharacterBase.generated.h"
 
 UCLASS()
@@ -31,7 +31,7 @@ protected:
 // 공격 판정
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-	TSubclassOf<ATDElfArrowProjectile> ElfArrowProjectile;
+	TSubclassOf<ATDProjectileBase> AttackProjectile;
 
 	virtual void AttackHitCheck() override;
 };

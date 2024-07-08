@@ -1,39 +1,38 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Projectile/TDElfArrowProjectile.h"
-#include "GameFramework/ProjectileMovementComponent.h"
-#include "Components/SphereComponent.h"
-#include "Components/StaticMeshComponent.h"
+#include "Projectile/TDProjectileBase.h"
+
 
 // Sets default values
-ATDElfArrowProjectile::ATDElfArrowProjectile()
+ATDProjectileBase::ATDProjectileBase()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Create Projectile"));
-
-    // Create collision component
+    // Collision Component 생성
     CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComponent"));
     CollisionComponent->InitSphereRadius(5.0f);
     CollisionComponent->SetCollisionProfileName(TEXT("Projectile"));
     RootComponent = CollisionComponent;
 
-    // Create projectile movement component
+    // Projectile Movement Component 생성
     ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
     ProjectileMovementComponent->UpdatedComponent = CollisionComponent;
-    ProjectileMovementComponent->InitialSpeed = 3000.f;
-    ProjectileMovementComponent->MaxSpeed = 3000.f;
+    ProjectileMovementComponent->InitialSpeed = 500.f;
+    ProjectileMovementComponent->MaxSpeed = 500.f;
     ProjectileMovementComponent->bRotationFollowsVelocity = true;
     ProjectileMovementComponent->bShouldBounce = false;
+    ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
 
-    // Create static mesh component
+    // Static Mesh Component 생성
     ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMesh"));
     ProjectileMesh->SetupAttachment(RootComponent);
+
+    // 공격 사거리, 추후 AttackRange 영향받도록 설정
+    InitialLifeSpan = 3.0f;
 }
 
-void ATDElfArrowProjectile::LaunchProjectile(float Speed)
+void ATDProjectileBase::LaunchProjectile(float Speed)
 {
-    UE_LOG(LogTemp, Warning, TEXT("Call Launch Projectile"));
-
-    ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
-    ProjectileMovementComponent->Activate();
+	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
+	ProjectileMovementComponent->Activate();
 }
+

@@ -47,14 +47,6 @@ ATDCharacterBase::ATDCharacterBase()
     {
         GetMesh()->SetAnimInstanceClass(AnimInstanceClassRef.Class);
     }
-
-    //static ConstructorHelpers::FClassFinder<ATDElfArrowProjectile> ElfArrowProjectileClassRef(
-    //    TEXT("/Game/Projectile/BP_TDElfArrowProjectile.BP_TDElfArrowProjectile_C"));
-
-    //if (ElfArrowProjectileClassRef.Class)
-    //{
-    //    ElfArrowProjectileClass = ElfArrowProjectileClassRef.Class;
-    //}
 }
 
 void ATDCharacterBase::AttackStart()
@@ -92,9 +84,7 @@ void ATDCharacterBase::AttackEnd(UAnimMontage* TargetMontage, bool IsProperlyEnd
 
 void ATDCharacterBase::AttackHitCheck()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Attack"));
-
-    if (ElfArrowProjectile)
+    if (AttackProjectile)
     {
         FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 100.0f;
         FRotator SpawnRotation = GetActorRotation();
@@ -103,7 +93,7 @@ void ATDCharacterBase::AttackHitCheck()
         SpawnParams.Owner = this;
         SpawnParams.Instigator = GetInstigator();
 
-        ATDElfArrowProjectile* Projectile = GetWorld()->SpawnActor<ATDElfArrowProjectile>(ElfArrowProjectile, SpawnLocation, SpawnRotation, SpawnParams);
+        ATDProjectileBase* Projectile = GetWorld()->SpawnActor<ATDProjectileBase>(AttackProjectile, SpawnLocation, SpawnRotation, SpawnParams);
         if (Projectile)
         {
             Projectile->LaunchProjectile(3000.0f);
