@@ -17,7 +17,7 @@ ATDCharacterBase::ATDCharacterBase()
 
     // Capsule
     GetCapsuleComponent()->InitCapsuleSize(42.0f, 96.0f);
-    GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
+    GetCapsuleComponent()->SetCollisionProfileName(TEXT("TDCapsule"));
 
     // Movement
     GetCharacterMovement()->bOrientRotationToMovement = true;

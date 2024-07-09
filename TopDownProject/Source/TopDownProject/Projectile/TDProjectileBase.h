@@ -35,4 +35,10 @@ public:
     // Function to handle the projectile's movement
     void LaunchProjectile(float Speed);
 
+// 피격 효과
+public:
+    UFUNCTION()
+    void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+
 };

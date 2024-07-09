@@ -10,7 +10,8 @@ ATDProjectileBase::ATDProjectileBase()
     // Collision Component 持失
     CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComponent"));
     CollisionComponent->InitSphereRadius(5.0f);
-    CollisionComponent->SetCollisionProfileName(TEXT("Projectile"));
+    CollisionComponent->SetCollisionProfileName(TEXT("TDProjectile"));
+    CollisionComponent->OnComponentHit.AddDynamic(this, &ATDProjectileBase::OnHit);
     RootComponent = CollisionComponent;
 
     // Projectile Movement Component 持失
@@ -36,3 +37,8 @@ void ATDProjectileBase::LaunchProjectile(float Speed)
 	ProjectileMovementComponent->Activate();
 }
 
+void ATDProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+    UE_LOG(LogTemp, Warning, TEXT("HIT!"));
+        Destroy();
+}
