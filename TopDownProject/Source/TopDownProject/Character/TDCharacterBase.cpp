@@ -47,6 +47,7 @@ ATDCharacterBase::ATDCharacterBase()
     {
         GetMesh()->SetAnimInstanceClass(AnimInstanceClassRef.Class);
     }
+
 }
 
 void ATDCharacterBase::AttackStart()
@@ -99,4 +100,33 @@ void ATDCharacterBase::AttackHitCheck()
             Projectile->LaunchProjectile(3000.0f);
         }
     }
+}
+
+void ATDCharacterBase::ApplyDamage(float DamageAmount, AController* EventInstigator, AActor* DamageCauser)
+{
+    FDamageEvent DamageEvent; // 데미지를 전달할 때 데미지 종류
+    TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+}
+
+float ATDCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+    Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+    SetDead();
+
+    return DamageAmount;
+}
+
+void ATDCharacterBase::SetDead()
+{
+    GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_None);
+    PlayDeadAnimation();
+    SetActorEnableCollision(false);
+}
+
+void ATDCharacterBase::PlayDeadAnimation()
+{
+    UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+    AnimInstance->StopAllMontages(0.0f);
+    AnimInstance->Montage_Play(DeadMontage, 1.0f);
 }

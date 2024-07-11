@@ -39,6 +39,18 @@ void ATDProjectileBase::LaunchProjectile(float Speed)
 
 void ATDProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    UE_LOG(LogTemp, Warning, TEXT("HIT!"));
-        Destroy();
+    if (OtherActor != this)
+    {
+        if (OtherActor->GetClass()->ImplementsInterface(UTDApplyDamageInterface::StaticClass()))
+        {
+            ITDApplyDamageInterface* HitCharacter = Cast<ITDApplyDamageInterface>(OtherActor);
+            if (HitCharacter)
+            {
+                HitCharacter->ApplyDamage(50.0f, GetInstigatorController(), this);
+            }
+
+            // 투사체를 파괴
+            Destroy();
+        }
+    }
 }

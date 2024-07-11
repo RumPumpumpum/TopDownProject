@@ -6,10 +6,13 @@
 #include "GameFramework/Character.h"
 #include "Interface/TDAttackAnimationInterface.h"
 #include "Projectile/TDProjectileBase.h"
+#include "Engine/DamageEvents.h"
+#include "Interface/TDApplyDamageInterface.h"
 #include "TDCharacterBase.generated.h"
 
+
 UCLASS()
-class TOPDOWNPROJECT_API ATDCharacterBase : public ACharacter, public ITDAttackAnimationInterface
+class TOPDOWNPROJECT_API ATDCharacterBase : public ACharacter, public ITDAttackAnimationInterface, public ITDApplyDamageInterface
 {
 	GENERATED_BODY()
 
@@ -34,4 +37,16 @@ protected:
 	TSubclassOf<ATDProjectileBase> AttackProjectile;
 
 	virtual void AttackHitCheck() override;
+
+// 피격 판정
+public:
+	void ApplyDamage(float DamageAmount, AController* EventInstigator, AActor* DamageCauser);
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UAnimMontage> DeadMontage;
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+	virtual void SetDead();
+	void PlayDeadAnimation();
 };

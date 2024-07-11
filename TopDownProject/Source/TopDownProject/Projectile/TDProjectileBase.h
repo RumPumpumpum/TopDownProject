@@ -7,7 +7,11 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameFramework/DamageType.h"
+#include "Kismet/GameplayStatics.h"
+#include "Interface/TDApplyDamageInterface.h"
 #include "TDProjectileBase.generated.h"
+
 
 UCLASS()
 class TOPDOWNPROJECT_API ATDProjectileBase : public AActor
