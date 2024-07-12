@@ -121,7 +121,7 @@ void ATDCharacterBase::SetDead()
 {
     GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_None);
     PlayDeadAnimation();
-    SetActorEnableCollision(false);
+    SetActorEnableCollision(false); 
 }
 
 void ATDCharacterBase::PlayDeadAnimation()
