@@ -40,7 +40,7 @@ protected:
 
 // 피격 판정
 public:
-	void ApplyDamage(float DamageAmount, AController* EventInstigator, AActor* DamageCauser);
+	virtual void ApplyDamage(float DamageAmount, AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, Meta = (AllowPrivateAccess = "true"))
