@@ -6,7 +6,6 @@
 #include "GameFrameWork/CharacterMovementComponent.h"
 #include "Animation/AnimMontage.h"
 
-
 // Sets default values
 ATDCharacterBase::ATDCharacterBase()
 {
@@ -48,6 +47,8 @@ ATDCharacterBase::ATDCharacterBase()
         GetMesh()->SetAnimInstanceClass(AnimInstanceClassRef.Class);
     }
 
+    // 스탯 컴포넌트
+    Stat = CreateDefaultSubobject<UTDCharacterStatComponent>(TEXT("Stat"));
 }
 
 void ATDCharacterBase::AttackStart()
@@ -97,7 +98,9 @@ void ATDCharacterBase::AttackHitCheck()
         ATDProjectileBase* Projectile = GetWorld()->SpawnActor<ATDProjectileBase>(AttackProjectile, SpawnLocation, SpawnRotation, SpawnParams);
         if (Projectile)
         {
-            Projectile->LaunchProjectile(3000.0f);
+            // 투사체 생성 전, 먼저 ApplyStat 함수로 스탯 적용 후 생성
+            Projectile->ApplyStat(100.0, Stat->GetAttackRange());
+            Projectile->LaunchProjectile();
         }
     }
 }
@@ -112,7 +115,7 @@ float ATDCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 {
     Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
-    SetDead();
+    Stat->ApplyDamage(DamageAmount);
 
     return DamageAmount;
 }

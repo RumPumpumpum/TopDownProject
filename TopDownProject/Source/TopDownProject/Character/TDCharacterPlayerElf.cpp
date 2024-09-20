@@ -48,6 +48,10 @@ ATDCharacterPlayerElf::ATDCharacterPlayerElf()
 		AttackAction = InputActionAttackRef.Object;
 	}
 
+	if (Stat)
+	{
+		Stat->SetAttackRange(5.0f);
+	}
 }
 
 void ATDCharacterPlayerElf::BeginPlay()
@@ -59,6 +63,7 @@ void ATDCharacterPlayerElf::BeginPlay()
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
+	
 }
 
 void ATDCharacterPlayerElf::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

@@ -26,14 +26,11 @@ ATDProjectileBase::ATDProjectileBase()
     // Static Mesh Component 생성
     ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMesh"));
     ProjectileMesh->SetupAttachment(RootComponent);
-
-    // 공격 사거리, 추후 AttackRange 영향받도록 설정
-    InitialLifeSpan = 3.0f;
 }
 
-void ATDProjectileBase::LaunchProjectile(float Speed)
+void ATDProjectileBase::LaunchProjectile()
 {
-	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
+    ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * ProjectileSpeed);
 	ProjectileMovementComponent->Activate();
 }
 
@@ -41,11 +38,13 @@ void ATDProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 {
     if (OtherActor != this)
     {
+        // 투사체에 맞은 오브젝트에 ApplyDamageInterface가 있다면 데미지 적용
         if (OtherActor->GetClass()->ImplementsInterface(UTDApplyDamageInterface::StaticClass()))
         {
             ITDApplyDamageInterface* HitCharacter = Cast<ITDApplyDamageInterface>(OtherActor);
             if (HitCharacter)
             {
+                // TODO: 50.0f 대신에 applystat 함수를 통해 공격력 가져와서 데미지적용
                 HitCharacter->ApplyDamage(50.0f, GetInstigatorController(), this);
             }
 
@@ -53,4 +52,10 @@ void ATDProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
             Destroy();
         }
     }
+}
+
+void ATDProjectileBase::ApplyStat(float NewProjectileSpeed, float ProjectileRange)
+{
+    ProjectileSpeed = NewProjectileSpeed;
+    SetLifeSpan(ProjectileRange);
 }

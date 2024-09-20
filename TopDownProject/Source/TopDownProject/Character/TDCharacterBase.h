@@ -8,6 +8,7 @@
 #include "Projectile/TDProjectileBase.h"
 #include "Engine/DamageEvents.h"
 #include "Interface/TDApplyDamageInterface.h"
+#include "CharacterStat/TDCharacterStatComponent.h"
 #include "TDCharacterBase.generated.h"
 
 
@@ -49,4 +50,8 @@ protected:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void SetDead();
 	void PlayDeadAnimation();
+
+// Ω∫≈»
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UTDCharacterStatComponent> Stat;
 };
