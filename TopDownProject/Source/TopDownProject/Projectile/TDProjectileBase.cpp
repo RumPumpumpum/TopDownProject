@@ -45,7 +45,7 @@ void ATDProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
             if (HitCharacter)
             {
                 // TODO: 50.0f 대신에 applystat 함수를 통해 공격력 가져와서 데미지적용
-                HitCharacter->ApplyDamage(50.0f, GetInstigatorController(), this);
+                HitCharacter->ApplyDamage(CharacterDamage, GetInstigatorController(), this);
             }
 
             // 투사체를 파괴
@@ -54,8 +54,11 @@ void ATDProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
     }
 }
 
-void ATDProjectileBase::ApplyStat(float NewProjectileSpeed, float ProjectileRange)
+void ATDProjectileBase::ApplyStat(float NewCharacterDamage, float NewProjectileSpeed, float NewProjectileRange)
 {
+    CharacterDamage = NewCharacterDamage;
     ProjectileSpeed = NewProjectileSpeed;
-    SetLifeSpan(ProjectileRange);
+    ProjectileRange = NewProjectileRange;
+
+    SetLifeSpan(NewProjectileRange);
 }

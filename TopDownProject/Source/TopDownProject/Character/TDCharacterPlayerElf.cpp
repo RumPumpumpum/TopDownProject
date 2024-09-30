@@ -50,7 +50,9 @@ ATDCharacterPlayerElf::ATDCharacterPlayerElf()
 
 	if (Stat)
 	{
-		Stat->SetAttackRange(5.0f);
+		Stat->SetCharacterDamage(10.0f);
+		Stat->SetProjectileSpeed(500.0f);
+		Stat->SetProjectileRange(2.0f);
 	}
 }
 

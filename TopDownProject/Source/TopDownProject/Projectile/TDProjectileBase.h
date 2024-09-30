@@ -43,9 +43,11 @@ public:
     UFUNCTION()
     void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
     
-    void ApplyStat(float Speed, float Range);
+    void ApplyStat(float NewCharacterDamage, float NewProjectileSpeed, float NewProjectileRange);
 
 private:
+    float CharacterDamage;
     float ProjectileSpeed;
+    float ProjectileRange;
 
 };

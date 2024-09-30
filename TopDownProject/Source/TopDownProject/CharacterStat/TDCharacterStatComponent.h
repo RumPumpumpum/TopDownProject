@@ -29,10 +29,13 @@ public:
 
 	FORCEINLINE float GetMaxHp() { return MaxHp; }
 	FORCEINLINE float GetCurrentHp() { return CurrentHp; }
-	FORCEINLINE float GetAttackDamage() { return AttackDamage; }
-	FORCEINLINE float GetAttackRange() { return AttackRange; }
+	FORCEINLINE float GetCharacterDamage() { return CharacterDamage; }
+	FORCEINLINE float GetProjectileRange() { return ProjectileRange; }
+	FORCEINLINE float GetProjectileSpeed() { return ProjectileSpeed; }
 
-	FORCEINLINE void SetAttackRange(float NewRange) { AttackRange = NewRange; }
+	FORCEINLINE void SetCharacterDamage(float NewCharacterDamage) { CharacterDamage = NewCharacterDamage; }
+	FORCEINLINE void SetProjectileSpeed(float NewProjectileSpeed) { ProjectileSpeed = NewProjectileSpeed; }
+	FORCEINLINE void SetProjectileRange(float NewProjectileRange) { ProjectileRange = NewProjectileRange; }
 	
 	float ApplyDamage(float InDamage);
 
@@ -46,8 +49,11 @@ protected:
 	float CurrentHp;
 
 	UPROPERTY(VisibleInstanceOnly, Category = Stat)
-	float AttackDamage;
+	float CharacterDamage;
 
 	UPROPERTY(VisibleInstanceOnly, Category = Stat)
-	float AttackRange;
+	float ProjectileRange;
+
+	UPROPERTY(VisibleInstanceOnly, Category = Stat)
+	float ProjectileSpeed;
 };

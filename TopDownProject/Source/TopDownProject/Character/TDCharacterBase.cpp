@@ -99,7 +99,7 @@ void ATDCharacterBase::AttackHitCheck()
         if (Projectile)
         {
             // 투사체 생성 전, 먼저 ApplyStat 함수로 스탯 적용 후 생성
-            Projectile->ApplyStat(100.0, Stat->GetAttackRange());
+            Projectile->ApplyStat(Stat->GetCharacterDamage(), Stat->GetProjectileSpeed(), Stat->GetProjectileRange());
             Projectile->LaunchProjectile();
         }
     }
