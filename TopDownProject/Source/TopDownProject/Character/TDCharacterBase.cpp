@@ -49,6 +49,9 @@ ATDCharacterBase::ATDCharacterBase()
 
     // 스탯 컴포넌트
     Stat = CreateDefaultSubobject<UTDCharacterStatComponent>(TEXT("Stat"));
+
+    // 사망 바인딩
+    Stat->OnHpZero.AddUObject(this, &ATDCharacterBase::SetDead);
 }
 
 void ATDCharacterBase::AttackStart()
@@ -60,12 +63,9 @@ void ATDCharacterBase::AttackStart()
         // 공격중에는 이동 불가
         GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_None);
 
-        // 공격 속도
-        const float AttackSpeed = 1.0f; // 추후 스텟으로 분리
-
         // 몽타주 재생
         UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-        AnimInstance->Montage_Play(AttackMontage, AttackSpeed);
+        AnimInstance->Montage_Play(AttackMontage, Stat->GetAttackSpeed());
 
         // 몽타주 종료 델리게이트
         FOnMontageEnded EndDelegate;
